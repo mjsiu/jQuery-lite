@@ -83,7 +83,7 @@
 
     html: function(string) {
       if (typeof string === "undefined") {
-        return this.HTMLels[0].innerHTML;
+        return this.nodes[0].innerHTML;
       }
 
       this.each(function(el) {
@@ -96,36 +96,35 @@
     },
 
     append: function(arg) {
-      if(typeof arg === 'string'){
-        this.HTMLels.forEach(function(el) {
+      if (typeof arg === 'string'){
+        this.each(function(el) {
           el.innerHTML += arg;
         });
-      } else if(arg instanceof HTMLElement){
-        // append to first only
-        this.HTMLels.forEach(function(el) {
+      } else if (arg instanceof HTMLElement){
+        this.each(function(el) {
           el.appendChild(arg);
         });
-      } else if(arg instanceof DomNodeCollection){
-        this.HTMLels.forEach(function(myEl) {
-          arg.HTMLels.forEach(function(el) {
+      } else if (arg instanceof DomNodeCollection){
+        this.each(function(myEl) {
+          arg.nodes.forEach(function(el) {
             myEl.appendChild(el);
           });
         });
       }
     },
 
-    attr: function(string) {
-      for (var i = 0; i < this.HTMLels.length; i++) {
-        for (var j = 0; i < this.HTMLels[i].attributes.length; j++) {
-          if (this.HTMLels[i].attributes[j].name === string){
-            return this.HTMLels[i].attributes[j].value;
-          }
-        }
+    attr: function(key, value) {
+      if (typeof val === "string") {
+        this.each(function(el) {
+          el.setAttribute(key, value);
+        });
+      } else {
+        return this.nodes[0].getAttribute(key);
       }
     },
 
     addClass: function(newClass) {
-      this.HTMLels.forEach( function(el){
+      this.each(function(el){
         if (el.hasAttribute("class")) {
           var oldClass = el.getAttribute("class");
           el.setAttribute("class", oldClass + " " + newClass);
@@ -136,7 +135,7 @@
     },
 
     removeClass: function(oldClass) {
-      this.HTMLels.forEach( function(el){
+      this.each(function(el){
         if (el.hasAttribute("class")) {
           var classArray = el.getAttribute("class").split(' ');
         }
@@ -153,7 +152,7 @@
 
     children: function() {
       var childElems = [];
-      this.HTMLels.forEach( function(el){
+      this.each(function(el){
         if(el.children.length >0){
           childElems = childElems.concat(el.children);
         }
@@ -164,7 +163,7 @@
     parent: function() {
       var parentElems = [];
 
-      this.HTMLels.forEach( function(el){
+      this.each(function(el){
           parentElems = parentElems.concat(el.parentNode);
       });
       return new DomNodeCollection(parentElems);
@@ -174,7 +173,7 @@
       var matches = [];
       var nodeList = document.querySelectorAll(arg);
       var nodeListArray = [].slice.call(nodeList);
-      this.HTMLels.forEach( function(el){
+      this.each(function(el){
         nodeListArray.forEach(function(node){
           if (el.contains(node)){
             matches.push(node);
@@ -188,9 +187,9 @@
       var matched = null;
 
       if (typeof arg !== "undefined") {
-        matched = this.find(arg).HTMLels;
+        matched = this.find(arg).nodes;
       } else {
-        matched = this.HTMLels;
+        matched = this.nodes;
       }
 
       matched.forEach(function(el) {
@@ -199,13 +198,13 @@
     },
 
     on: function(type, fn) {
-      this.HTMLels.forEach( function(el){
+      this.each(function(el){
         el.addEventListener( type, fn);
       });
     },
 
     off: function(type, fn) {
-      this.HTMLels.forEach( function(el){
+      this.each(function(el){
         el.removeEventListener( type, fn);
       });
     }
