@@ -7,15 +7,17 @@
   </head>
   <body>
 
-    <h1>jQuery Lite</h1>
+    <h1>jQuery Lite Example</h1>
     <div class="main-area">
       <ul class="main-list">
-        <li id="0" class="boo">First Item</li>
-        <li>Second Item</li>
-        <li><a href="#">I'm a link!</a></li>
+        <li id="0" class="first">First Item</li>
+        <li id="1">Second Item</li>
+        <li id="2"><a href="#">I'm a link!</a></li>
       </ul>
+
+      <p>Pull up the console and try modifying the DOM using ' $l '!</p>
     </div>
-    <script type="text/javascript"> $l(function(){console.log("ASYNC")}); </script>
-    <script type="text/javascript"> console.log("DOM is done loading"); </script>
+    <script type="text/javascript"> $l(function(){console.log("Supports ASYNC Loading!")}); </script>
+    <script type="text/javascript"> console.log("DOM load complete..."); </script>
   </body>
 </html>
